@@ -1,1 +1,22 @@
-site_name: My Docs
+site_name: SportLudique — Site de Tours (TRS)
+site_description: Documentation technique progressive de l'infrastructure de Tours
+
+theme:
+  name: readthedocs
+  language: fr
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Accueil: index.md
+  - Infrastructure:
+      - Vue d'ensemble: infra/index.md
+      - Topologie & Adressage: infra/topologie.md
+      - Conventions du site TRS: infra/conventions.md
+  - Annexes:
+      - Commandes utiles: annexes/memo.md
+      - Matériel & Connectique: annexes/materiel.md
