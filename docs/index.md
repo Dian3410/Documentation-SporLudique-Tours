@@ -1,17 +1,17 @@
-# Welcome to MkDocs
+# Documentation de l'infrastructure — Site de Tours (TRS)
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Bienvenue sur la documentation technique officielle du site de **Tours**, développée dans le cadre du projet d'infrastructure **SportLudique**.
 
-## Commands
+Ce portail centralise l'ensemble des procédures, configurations réseau, déploiements de services et règles d'administration propres à l'îlot de Tours.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+!!! info "Repères rapides — Site TRS"
+    * **Domaine Active Directory :** `trs.tours.sportludique.fr` (NetBIOS : `TRS`)
+    * **Préfixe obligatoire des VMs :** `TRS-` (ex. : `TRS-DC01`, `TRS-FW01`)
+    * **VLAN Management (imposé) :** `130` (`172.28.130.0/24`)
+    * **Plage VLANs attribuée :** `230` à `239`
 
-## Project layout
+## Navigation rapide
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+* **[Infrastructure](infra/topologie.md)** — Topologie globale, plan d'adressage IP et découpage des VLANs.
+* **[Conventions TRS](infra/conventions.md)** — Règles de nommage, brassage physique et consignes du laboratoire.
+* **[Annexes](annexes/memo.md)** — Aide-mémoire des commandes système et identifiants techniques.
