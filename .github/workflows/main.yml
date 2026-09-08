@@ -1,0 +1,58 @@
+name: Deploy MkDocs
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+
+  build:
+    name: Construire la documentation
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v6
+
+      - name: Installer Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Installer MkDocs Material
+        run: |
+          pip install mkdocs-material
+
+      - name: Construire le site
+        run: |
+          mkdocs build
+
+      - name: Préparer l'artifact GitHub Pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./site
+
+
+  deploy:
+    name: Déployer sur GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+
+      - name: Déployer le site
+        id: deployment
+        uses: actions/deploy-pages@v4
