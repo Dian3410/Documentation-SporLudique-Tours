@@ -1,5 +1,5 @@
-site_name: SportLudique — Site de Tours (TRS)
-site_description: Documentation technique progressive de l'infrastructure de Tours
+site_name: Projet SportLudique-Site de Tours
+site_description: Documentation technique de l'infrastructure du site Tours
 
 theme:
   name: readthedocs
@@ -14,10 +14,7 @@ theme:
 nav:
   - Accueil: index.md
   - Infrastructure:
-      - Configuration de SSH sur un switch 9200L :infra/
-      - Vue d'ensemble: infra/index.md
-      - Topologie & Adressage: infra/topologie.md
-      - Conventions du site TRS: infra/conventions.md
+     - Configuration de SSH sur un switch 9200L: infra/ssh-switch-9200L.md
   - Annexes:
       - Commandes utiles: annexes/memo.md
       - Matériel & Connectique: annexes/materiel.md
