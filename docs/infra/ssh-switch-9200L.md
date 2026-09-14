@@ -122,3 +122,19 @@ switch_tours(config)#login authentication default
 ```
 switch_tours(config)# transport input ssh
 ```
+
+5 **Sauvegarde des conf**
+```
+switch_tours# write memory
+```
+- Si **system ignore startup-config est activé (c'est à dire =1)**, les configurations sauvegardées peuvent être ignorées au redémarrage du switch. Il est donc recommandé de vérifier cette variable lors de la préparation d'un switch neuf ou après une réinitialisation.
+
+vérifier que le system_ignore_startup-config=0
+```
+switch_tours#show romvar
+```
+si il est à 1: Passer en Configure Terminal
+```
+switch_tours(config)#no system ignore startup-config switch all
+```
+Après on peut sauvegarder de nouveau avec write memory.
