@@ -38,7 +38,7 @@ routeur_tours(config)# ip domain-name tours.local
 - On attribue le niveau de privilège le plus élevé aux admin
 
 ```
-routeur_tours(config)# username morgan privilege 15 secret Ad@78Mi
+routeur_tours(config)# username admin privilege 15 secret mot_de_passe
 ```
 
 - On génère les clés RSA utilisées pour sécuriser les connexions SSH.
