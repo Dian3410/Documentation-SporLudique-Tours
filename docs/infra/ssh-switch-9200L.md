@@ -71,36 +71,54 @@ Switch# conf t
 - On définit le nom du switch et le nom du domaine afin d'établir la génération des clés RSA.
 
 ```
-Switch(config)# hostname (à compléter)
-Switch(config)# ip domain name tours.local
+Switch(config)# hostname switch_tours
+switch_tours>(config)# ip domain name tours.local
 ```
 
 - On attribue le niveau de privilège le plus élevé pour les administrateurs.
 
 ```
-Switch(config)# username dian privilege 15 secret (mots de passe)
-Switch(config)# username morgan privilege 15 secret (mots de passe)
-Switch(config)# crypto key generate rsa
+switch_tours(config)# username dian privilege 15 secret (mots de passe)
+switch_tours(config)# username morgan privilege 15 secret (mots de passe)
+switch_tours(config)# crypto key generate rsa
 ```
 
 **Une clé RSA de 2048 bits offre un bon niveau de sécurité tout en consommant relativement peu de ressources.**
 
 - On active la version la plus récente de SSH.
 ```
-Switch(config)# ip ssh version 2
+switch_tours(config)# ip ssh version 2
 ```
 
-- On configure les cinq lignes VTY (0 à 4) afin d'autoriser plusieurs connexions d'administration à distance.
+- On active le système AAA pour gérer l’authentification et les autorisations des utilisateurs.
+
 ```
-Switch(config)# line vty 0 4
+switch_tours(config)#aaa new-model 
 ```
 
-- On autorise uniquement les connexions SSH sur les sessions (lignes VTY) définies.
+- On indique que les utilisateurs doivent être authentifiés avec les comptes locaux du switch.
+
 ```
-Switch(config)# transport input ssh
+switch_tours(config)#aaa authentication login default local
+```
+- On vérifie les droits de l’utilisateur avant de lui donner accès au mode EXEC.
+```
+switch_tours(config)#aaa authorization exec default local
 ```
 
-- On configure l'authentification locale afin que les utilisateurs soient authentifiés à partir des comptes définis sur le switch.
+
+- On configure les lignes virtuels (VTY) pour effectuer des connexions à distance
 ```
-Switch(config)# login local
+switch_tours(config)# line vty 0 4
+```
+
+- On applique la méthode d’authentification AAA configurée aux connexions VTY.
+
+```
+switch_tours(config)#login authentication default
+```
+
+- On autorise uniquement les connexions SSH 
+```
+switch_tours(config)# transport input ssh
 ```
