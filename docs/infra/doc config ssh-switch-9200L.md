@@ -138,3 +138,7 @@ si il est à 1: Passer en Configure Terminal
 switch_tours(config)#no system ignore startup-config switch all
 ```
 Après on peut sauvegarder de nouveau avec write memory.
+
+#conf mise en place sur le switch
+
+- les vlan leur id leur ports associés et leurs ip d'interfaces
