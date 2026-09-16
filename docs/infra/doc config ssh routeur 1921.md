@@ -17,6 +17,11 @@ Would you like to enter the initial configuration dialog? [yes/no]:
 
 - Répondre **no** à cette question.
 
+⚠️ Attention : après la réinitialisation, penser à remettre le registre de configuration à 0x2102 afin que le routeur puisse charger et enregistrer correctement sa configuration au redémarrage.
+```
+Routeur# config-register 0x2102
+```
+
 2 **Configuration de SSH sur le routeur**
 
 ```
@@ -47,10 +52,10 @@ routeur_tours(config)# username admin privilege 15 secret mot_de_passe
 routeur_tours(config)# crypto key generate rsa
 ```
 
-- On utilise une clé RSA de 2048 bits.
+- On utilise une clé RSA de 2048 bits
 
 ```
-routeur_tours(config)# 2048 bits
+routeur_tours(config)# 2048 
 ```
 
 **ne clé RSA de 2048 bits offre un bon niveau de sécurité tout en consommant relativement peu de ressources.**
@@ -128,40 +133,62 @@ routeur_tours(config)# interface gigabitEthernet 0/0
 routeur_tours(config-if)# no shutdown
 ```
 
-- La liaison entre le routeur et le switch utilise donc le VLAN 130 sur une liaison trunk.
+- La liaison entre le routeur et le switch utilise donc le VLAN 130 sur une liaison trunk **(la liaison routeur switch est sur le port 22 du switch et sur le port 0/0 du routeur)**.
 
-5 Récapitulatif de la configuration
+5 Configuration du WAN, du LAN et du NAT
 
-- Interface du routeur :
+### Configuration de l'interface WAN
 
-```
-GigabitEthernet 0/0.130
-```
-
-- Adresse IP du routeur :
+- L'interface `GigabitEthernet 0/1` est utilisée pour la connexion WAN vers le réseau externe.
+- L'adresse IP `221.87.137.1/30` est attribuée à cette interface.
+- L'interface est définie comme l'interface extérieure du NAT avec `ip nat outside`.
 
 ```
-10.0.130.254/24
+routeur_tours(config)# interface gigabitEthernet 0/1
+routeur_tours(config-if)# ip address 221.87.137.1 255.255.255.252
+routeur_tours(config-if)# ip nat outside
+routeur_tours(config-if)# no shutdown
+routeur_tours(config-if)# exit
+routeur_tours(config)# exit
 ```
-- VLAN utilisé :
+
+- On configure ensuite une route par défaut afin que le routeur puisse envoyer les paquets vers le réseau externe via la passerelle `221.87.137.2`.
 
 ```
-VLAN 130
+routeur_tours(config)# ip route 0.0.0.0 0.0.0.0 221.87.137.2
 ```
-- Port du switch connecté au routeur :
+
+### Configuration de l'interface LAN
+
+- La sous-interface `GigabitEthernet 0/0.230` est utilisée pour le réseau LAN du VLAN 230.
+- Elle est associée au VLAN 230 grâce à l'encapsulation 802.1Q.
+- L'adresse IP `192.168.230.254/24` est utilisée comme passerelle du réseau LAN.
+- La sous-interface est définie comme interface intérieure du NAT avec `ip nat inside`.
 
 ```
-Port 22
+routeur_tours(config)# interface gigabitEthernet 0/0.230
+routeur_tours(config-subif)# encapsulation dot1Q 230
+routeur_tours(config-subif)# ip address 192.168.230.254 255.255.255.0
+routeur_tours(config-subif)# ip nat inside
+routeur_tours(config-subif)# no shutdown
+routeur_tours(config-subif)# exit
 ```
-- Mode du port :
+
+### Mise en place de l'ACL pour le NAT
+
+- Une ACL standard est créée afin d'identifier le réseau LAN `192.168.230.0/24` dont les adresses doivent être traduites par le NAT.
 
 ```
-Trunk
+routeur_tours(config)# ip access-list standard ACL_NAT
+routeur_tours(config-std-nacl)# permit 192.168.230.0 0.0.0.255
 ```
-- Port utilisé pour SSH :
+
+- On applique ensuite la règle NAT sur l'interface WAN `GigabitEthernet0/1`.
+- L'option `overload` permet à plusieurs machines du réseau LAN d'utiliser l'adresse IP de l'interface WAN pour accéder au réseau externe.
 
 ```
-22
+routeur_tours(config)# ip nat inside source list ACL_NAT interface GigabitEthernet0/1 overload
+routeur_tours(config)# end
 ```
 
 6 Sauvegarde des conf
@@ -183,4 +210,50 @@ routeur_tours#show ip ssh
 ```
 routeur_tours#show ip interface brief
 ```
+
+7 Récapitulatif de la configuration
+
+- Interface du routeur :
+
+```
+GigabitEthernet 0/0.130
+```
+
+- Adresse IP du routeur dans le vlan management (vlan 130):
+
+```
+10.0.130.254/24
+```
+- VLAN utilisé :
+
+- Port du switch connecté au routeur :
+
+```
+Port 22
+```
+- Mode du port :
+
+```
+Trunk
+```
+- Port utilisé pour SSH :
+
+```
+22
+```
+### Tableau récapitulatif des interfaces
+
+| Interface | Type | Liaison / Utilisation | VLAN | Adresse IP |
+|---|---|---|---:|---|
+| `GigabitEthernet 0/0` | Interface physique | Liaison trunk vers le switch | — | — |
+| `GigabitEthernet 0/0.130` | Sous-interface | Réseau de management | 130 | `10.0.130.254/24` |
+| `GigabitEthernet 0/0.230` | Sous-interface | Réseau LAN | 230 | `192.168.230.254/24` |
+| `GigabitEthernet 0/1` | Interface physique | Liaison WAN vers le réseau externe | — | `221.87.137.1/30` |
+
+### Récapitulatif des liaisons
+
+- `GigabitEthernet 0/0` → liaison **trunk** vers le switch.
+- `GigabitEthernet 0/0.130` → sous-interface dédiée au **VLAN 130 (management)**.
+- `GigabitEthernet 0/0.230` → sous-interface dédiée au **VLAN 230 (LAN)**.
+- `GigabitEthernet 0/1` → liaison **WAN** vers la passerelle `221.87.137.2`.
 
