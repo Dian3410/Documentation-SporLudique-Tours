@@ -1,0 +1,8 @@
+#  vlans configurés sur sur le switch
+
+
+
+| Vlan | ID vlan | Interfaces associée  | Adresse réseau/IP de l'interface du Vlan | Mode |
+|---|---|---|---|---|
+| Vlan management| 130 | Gi1/0/24, Gi1/0/23 | 10.0.130.0/24| access |
+| Vlan interco | 230 | Gi1/0/21 | 192.168.230.0/24 | access |
