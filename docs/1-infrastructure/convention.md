@@ -1,0 +1,1 @@
+- Pour les passerelles on utilise la dernière adresse disponible pour chaque réseau

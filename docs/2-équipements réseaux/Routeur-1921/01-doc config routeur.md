@@ -102,7 +102,7 @@ routeur_tours(config)#login authentication default
 routeur_tours(config)# transport input ssh
 ```
 
-3 Configuration de l'IP du routeur
+3 **onfiguration de l'IP du routeur**
 
 - Le routeur utilise une sous-interface afin de communiquer avec le VLAN 130.
 
@@ -122,7 +122,7 @@ routeur_tours(config-subif)#encapsulation dot1Q 130
 routeur_tours(config-subif)#ip address 10.0.130.254 255.255.255.0
 ```
 
-4 Configuration de l'interface du routeur
+4 **Configuration de l'interface du routeur**
 
 - L'interface `GigabitEthernet 0/0` du routeur est reliée au switch sur un port configuré en mode trunk.
 
@@ -135,7 +135,7 @@ routeur_tours(config-if)# no shutdown
 
 - La liaison entre le routeur et le switch utilise donc le VLAN 130 sur une liaison trunk **(la liaison routeur switch est sur le port 22 du switch et sur le port 0/0 du routeur)**.
 
-5 Configuration du WAN, du LAN et du NAT
+5 **Configuration du WAN, du LAN et du NAT**
 
 ### Configuration de l'interface WAN
 
@@ -191,7 +191,7 @@ routeur_tours(config)# ip nat inside source list ACL_NAT interface GigabitEthern
 routeur_tours(config)# end
 ```
 
-6 Sauvegarde des conf
+6 **Sauvegarde des conf**
 
 - Une fois la configuration terminée, on sauvegarde la configuration afin qu'elle soit conservée après le redémarrage du routeur.
 
@@ -205,55 +205,8 @@ routeur_tours# write memory
 routeur_tours#show ip ssh
 ```
 
-- n peut vérifier l'état des interfaces avec :
-
+- on peut vérifier l'état des interfaces avec :
 ```
 routeur_tours#show ip interface brief
 ```
-
-7 Récapitulatif de la configuration
-
-- Interface du routeur :
-
-```
-GigabitEthernet 0/0.130
-```
-
-- Adresse IP du routeur dans le vlan management (vlan 130):
-
-```
-10.0.130.254/24
-```
-- VLAN utilisé :
-
-- Port du switch connecté au routeur :
-
-```
-Port 22
-```
-- Mode du port :
-
-```
-Trunk
-```
-- Port utilisé pour SSH :
-
-```
-22
-```
-### Tableau récapitulatif des interfaces
-
-| Interface | Type | Liaison / Utilisation | VLAN | Adresse IP |
-|---|---|---|---:|---|
-| `GigabitEthernet 0/0` | Interface physique | Liaison trunk vers le switch | — | — |
-| `GigabitEthernet 0/0.130` | Sous-interface | Réseau de management | 130 | `10.0.130.254/24` |
-| `GigabitEthernet 0/0.230` | Sous-interface | Réseau LAN | 230 | `192.168.230.254/24` |
-| `GigabitEthernet 0/1` | Interface physique | Liaison WAN vers le réseau externe | — | `221.87.137.1/30` |
-
-### Récapitulatif des liaisons
-
-- `GigabitEthernet 0/0` → liaison **trunk** vers le switch.
-- `GigabitEthernet 0/0.130` → sous-interface dédiée au **VLAN 130 (management)**.
-- `GigabitEthernet 0/0.230` → sous-interface dédiée au **VLAN 230 (LAN)**.
-- `GigabitEthernet 0/1` → liaison **WAN** vers la passerelle `221.87.137.2`.
 
