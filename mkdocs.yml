@@ -11,10 +11,3 @@ theme:
     - search.suggest
     - search.highlight
 
-nav:
-  - Accueil: index.md
-  - Infrastructure:
-     - Configuration de SSH sur un switch 9200L: infra/ssh-switch-9200L.md
-  - Annexes:
-      - Commandes utiles: annexes/memo.md
-      - Matériel & Connectique: annexes/materiel.md

@@ -17,21 +17,23 @@ Switch# conf t
 ```
 Switch(config)# vlan 130
 Switch(config-vlan)# name vlan_management
-Configuration de SSH sur un switch 9200L
 ```
 
 - Les ports 23 et 24 sont affectés au VLAN 130 afin d'établir une communication entre les stations d'administration ainsi que les équipements présents dans le VLAN.
-
-```Switch(config)# interface gigabitEthernet 1/0/23```
+```
+Switch(config)# interface gigabitEthernet 1/0/23
+```
 
 
 - On définit que le port 23 appartient à un seul VLAN.
-
-```Switch(config-if)# switchport mode access```
+```
+Switch(config-if)# switchport mode access
+```
 
 - On définit que seul le VLAN 130 sera actif sur le port 23.
-
-```Switch(config-if)# switchport access vlan 130```
+```
+Switch(config-if)# switchport access vlan 130
+```
 
 - On établit la même procédure sur le port 24.
 
@@ -56,11 +58,14 @@ Switch(config)# interface vlan 130
 ```
 - Conformément au réseau du VLAN 130 10.0.130.0/24, l'adresse IP 10.0.130.1 est attribuée à la SVI.
 
-```Switch(config-if)# ip address 10.0.130.1 255.255.255.0```
+```
+Switch(config-if)# ip address 10.0.130.1 255.255.255.0
+```
 
 - On active l'interface virtuelle du VLAN 130.
-
-```Switch(config-if)# no shutdown```
+```
+Switch(config-if)# no shutdown
+```
 
 4 **Configuration de SSH sur le switch**
 ```
@@ -139,6 +144,19 @@ switch_tours(config)#no system ignore startup-config switch all
 ```
 Après on peut sauvegarder de nouveau avec write memory.
 
-#conf mise en place sur le switch
+6 **Mise en place du vlan 230 (vlan d'interco)**
 
-- les vlan leur id leur ports associés et leurs ip d'interfaces
+- Pour assurer la liaison entre le routeur exétérieur (FAI1) et switch L3, le vlan d'interconnexion a été mise en place (192.168.230.0/24)
+```
+Switch(config)# vlan 230
+Switch(config-vlan)# name vlan_interco
+```
+
+- Rappel: le port 22 est configurer en trunk et assure la liaison physique entre le routeur et le switch L3
+
+```
+Switch(config)# interface gigabitEthernet 1/0/23
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allows vlan 230
+Switch(config-if)# ip address 10.0.230.1 255.255.255.0
+```
