@@ -155,8 +155,10 @@ Switch(config-vlan)# name vlan_interco
 - Rappel: le port 22 est configurer en trunk et assure la liaison physique entre le routeur et le switch L3
 
 ```
-Switch(config)# interface gigabitEthernet 1/0/23
+Switch(config)# interface gigabitEthernet 1/0/22
 Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allows vlan 230
+Switch(config-if)# switchport trunk allows vlan 130,230
 Switch(config-if)# ip address 10.0.230.1 255.255.255.0
 ```
+⚠️ **Attention :** Sur les switchs Cisco, lorsqu’on modifie la liste des VLAN autorisés sur une interface **trunk**, il faut renseigner **toute la liste des VLAN** à autoriser.  
+Sinon, les VLAN précédemment autorisés seront remplacés et seul le VLAN indiqué dans la nouvelle commande sera conservé.
