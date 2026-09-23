@@ -143,22 +143,3 @@ si il est à 1: Passer en Configure Terminal
 switch_tours(config)#no system ignore startup-config switch all
 ```
 Après on peut sauvegarder de nouveau avec write memory.
-
-6 **Mise en place du vlan 230 (vlan d'interco)**
-
-- Pour assurer la liaison entre le routeur exétérieur (FAI1) et switch L3, le vlan d'interconnexion a été mise en place (192.168.230.0/24)
-```
-Switch(config)# vlan 230
-Switch(config-vlan)# name vlan_interco
-```
-
-- Rappel: le port 22 est configurer en trunk et assure la liaison physique entre le routeur et le switch L3
-
-```
-Switch(config)# interface gigabitEthernet 1/0/22
-Switch(config-if)# switchport mode trunk
-Switch(config-if)# switchport trunk allows vlan 130,230
-Switch(config-if)# ip address 10.0.230.1 255.255.255.0
-```
-⚠️ **Attention :** Sur les switchs Cisco, lorsqu’on modifie la liste des VLAN autorisés sur une interface **trunk**, il faut renseigner **toute la liste des VLAN** à autoriser.  
-Sinon, les VLAN précédemment autorisés seront remplacés et seul le VLAN indiqué dans la nouvelle commande sera conservé.
