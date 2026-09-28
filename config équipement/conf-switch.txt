@@ -1,14 +1,12 @@
-switch_tours#sh run
 Building configuration...
 
-Current configuration : 7188 bytes
+Current configuration : 9902 bytes
 !
-! Last configuration change at 08:28:05 UTC Mon Sep 14 2026 by dian
+! Last configuration change at 13:34:04 UTC Mon Sep 28 2026 by dian
 !
 version 17.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
-! Call-home is enabled by Smart-Licensing.
 service call-home
 platform punt-keepalive disable-kernel-core
 !
@@ -49,6 +47,7 @@ switch 1 provision c9200l-24t-4g
 !
 !
 !
+ip routing
 !
 ip domain name tours.local
 !
@@ -59,6 +58,12 @@ login on-success log
 crypto pki trustpoint SLA-TrustPoint
  enrollment pkcs12
  revocation-check crl
+!
+crypto pki trustpoint TP-self-signed-1606151234
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1606151234
+ revocation-check none
+ rsakeypair TP-self-signed-1606151234
 !
 !
 crypto pki certificate chain SLA-TrustPoint
@@ -90,6 +95,35 @@ crypto pki certificate chain SLA-TrustPoint
   418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0
   D697DF7F 28
         quit
+crypto pki certificate chain TP-self-signed-1606151234
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31363036 31353132 3334301E 170D3236 30393134 30383533
+  35335A17 0D333630 39313330 38353335 335A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 36303631
+  35313233 34308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100C4C6 4DD05381 C0B4A32C C967151A 74F44603 FCCD81A5 6EFBD0A4
+  AEB20C24 389C6F82 098E33C1 AABB5B70 0373D12F BC61880A F2522A82 63B81C44
+  138EBDC2 CA7C45A4 F6A2DFB0 49DD673B 50F9057E 91291CDA 8BA67E63 DB2A527B
+  154D2255 9BCC828A 8957FEE3 1742A843 65A168B3 EDF02A6D 2164E1B5 66EA2745
+  DC32523A 7F35F077 F56EFC11 EEE349F5 151AC9D2 BB5282F9 D180C060 24B3A715
+  B0A02E81 9525EE57 215CDEB1 29A220B6 80F48291 125B2D74 54DAE13A E53A63D3
+  D7EC591E 0B541BCE E1FDFD58 1F6EB518 21F0C8B3 603BDE47 9444F9B5 89FF1095
+  C1C38F71 1887A53B 29DE2A26 3316E13F 3FC5BAFF 3B4CFEDC AB5E7679 C0189F76
+  7F252348 F5CF0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 1439305C 066810F9 F439B7A4 5128665E BA9CD5FE
+  C8301D06 03551D0E 04160414 39305C06 6810F9F4 39B7A451 28665EBA 9CD5FEC8
+  300D0609 2A864886 F70D0101 05050003 82010100 486E5EE2 434D427B 8569C4C2
+  9B7FD577 8273323D 59DBF173 5EC04058 F958BA54 A46404FB 1409869A 3EF08305
+  9349801B 9D7D3BA6 988A5023 5F1C8DF1 DD67D13A D4FDEC46 ED9728EE 2F6168F8
+  6CE096F6 3E78B40E 255E3573 90579A23 0D4AA5B0 D080A76A 9ECC034C 79B063EE
+  88CA023F D78F602B 4271297E AA5CBDD4 CA690FDC FA4F562C 6C9B44DE A0DA8E35
+  30540A87 3D663BBC E95E2467 3C6BA87F C1902A91 9AFA6980 92AF7D40 34421B31
+  12D4502F B245AFAF D866B2D1 81CAB247 BCAF9427 1A5E20F1 7994ABA6 28FEF054
+  2DFE660A 3B16194B CD7E652D 304D8EE1 51BBC188 6559B29C 9C205D6C 52A0051F
+  BCDBEF6B 5A278782 25EA27CB 321713C5 61B3DAD0
+        quit
 !
 license boot level network-essentials addon dna-essentials
 !
@@ -100,8 +134,8 @@ spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 memory free low-watermark processor 10626
 !
-username dian privilege 15 secret 9 $9$V27ep0sZkRd66U$FM4uNKo/aDfdFi22Fx0X2W/OwMwf4dbpsL25ynS9SM2
 username morgan privilege 15 secret 9 $9$ZDKAN07KaXQ3ak$e1pHllhGpYVgQiPRaqANC.02se7HIopSRBKtWirssg.
+username dian privilege 15 secret 9 $9$8FH5EdtCqRIgnU$VvmbR.qAi4xr03iyTVwQX7MaLJ47fDjkjhZtmzfjnRQ
 !
 redundancy
  mode sso
@@ -179,6 +213,8 @@ interface GigabitEthernet1/0/1
 interface GigabitEthernet1/0/2
 !
 interface GigabitEthernet1/0/3
+ switchport access vlan 232
+ switchport mode access
 !
 interface GigabitEthernet1/0/4
 !
@@ -211,12 +247,20 @@ interface GigabitEthernet1/0/17
 interface GigabitEthernet1/0/18
 !
 interface GigabitEthernet1/0/19
+ switchport access vlan 230
+ switchport mode access
 !
 interface GigabitEthernet1/0/20
+ switchport access vlan 231
+ switchport mode access
 !
 interface GigabitEthernet1/0/21
+ switchport trunk allowed vlan 130,230-232
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/22
+ switchport trunk allowed vlan 130,230-232
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/23
  switchport access vlan 130
@@ -237,12 +281,25 @@ interface GigabitEthernet1/1/4
 interface Vlan1
  no ip address
 !
+interface Vlan31
+ no ip address
+!
 interface Vlan130
  ip address 10.0.130.1 255.255.255.0
+!
+interface Vlan230
+ ip address 192.168.230.1 255.255.255.0
+!
+interface Vlan231
+ ip address 172.28.64.254 255.255.255.0
+!
+interface Vlan232
+ ip address 172.28.65.254 255.255.255.0
 !
 ip forward-protocol nd
 ip http server
 ip http secure-server
+ip route 0.0.0.0 0.0.0.0 192.168.230.254
 ip ssh version 2
 !
 !
@@ -276,4 +333,3 @@ call-home
 !
 !
 end
-
