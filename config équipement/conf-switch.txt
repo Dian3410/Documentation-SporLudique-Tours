@@ -311,7 +311,9 @@ control-plane
  service-policy input system-cpp-policy
 !
 !
-line con 0
+line con 0switch_tours(config-if)#exit
+switch_tours(config)#ip route 0.0.0.0 0.0.0.0 192.168.230.254
+
  stopbits 1
 line aux 0
 line vty 0 4

@@ -17,9 +17,9 @@ routeur_tours(config)# exit
 ```
 
 - On configure ensuite une route par défaut afin que le routeur puisse envoyer les paquets vers le réseau externe via la passerelle `221.87.137.2`.
-
+- On configure également une route vers le réseau 192.168.230.0/24
 ```
-routeur_tours(config)# ip route 0.0.0.0 0.0.0.0 221.87.137.2
+routeur_tours(config)# ip route 0.0.0.0 0.0.0.0 221.87.137.2              
 ```
 
 ## Configuration de la sous interface Gi0/0.230
