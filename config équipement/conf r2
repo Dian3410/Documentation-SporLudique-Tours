@@ -67,7 +67,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/0.130
  encapsulation dot1Q 130
  ip address 10.0.130.251 255.255.255.0
-!
+!git reset --hard origin/nom_de_la_branche
 interface GigabitEthernet0/0.230
  encapsulation dot1Q 230
  ip address 192.168.230.251 255.255.255.0

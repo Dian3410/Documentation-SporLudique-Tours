@@ -34,6 +34,7 @@ Switch(config-if)# switchport mode access
 ```
 Switch(config-if)# switchport access vlan 130
 ```
+règle de nat (acl) :
 
 - On établit la même procédure sur le port 24.
 

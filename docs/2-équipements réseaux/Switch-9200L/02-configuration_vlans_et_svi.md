@@ -1,7 +1,5 @@
 # Configuration des VLANs et du routage (SVI)
 
-
-
 ## 1. Activation du routage global
 Avant de configurer les interfaces, on active le routage de niveau 3 sur le switch :
 ```
@@ -25,7 +23,6 @@ Switch_tours(config-if)# ip address 192.168.230.1 255.255.255.0
 
 - Rappel: le port Gi1/0/22 est configurer en trunk et assure la liaison physique entre le routeur et le switch L3
 
-
 - On configure le port Gi1/0/22 en mode trunk et on autorise les VLAN 130 et 230 sur ce trunk 
 À chaque ajout d’un nouveau VLAN, celui-ci devra également être ajouté à la liste des VLAN autorisés sur ce port en trunk.
 ```
@@ -35,15 +32,41 @@ Switch_tours(config-if)# switchport trunk allows vlan 130,230
 ```
 ⚠️ **Attention :** Sur les switchs Cisco, lorsqu’on modifie la liste des VLAN autorisés sur une interface **trunk**, il faut renseigner **toute la liste des VLAN** à autoriser.  
 Sinon, les VLAN précédemment autorisés seront remplacés et seul le VLAN indiqué dans la nouvelle commande sera conservé.
-
+S
 - Pour tester l'accessibilité du vlan_interco on affectera l'interface Gi1/0/19 à ce vlan 
 ```
 Switch_tours(config)# interface gigabitEthernet 1/0/19
 Switch_tours(config-if)# switchport mode access
 Switch_tours(config-if)# switchport access vlan 230
 Switch_tours(config-if)# end
+switch_tours#write memory
 ```
 
+### VLAN 231 : vlant_clients
+
+nommage du vlan 231
+switch_tours(config)#vlan 231
+switch_tours(config-vlan)#name vlan_clients
+
+configuration du vlan clients
+switch_tours(config)#interface gigabitEthernet 1/0/20
+switch_tours(config-if)#switchport mode access
+switch_tours(config-if)#switchport access vlan 231
+je précise les vlans précédent pour ne pas écraser les autres vlans !
+
+Adressage ip du vlan clients (gateway)
+switch_tours(config)#interface vlan 231
+switch_tours(config-if)#ip address 172.28.64.254 255.255.255.0 (gateway vlan clients)
+switch_tours(config)#ip routing
+
+ajout du vlan clients au port trunk
+switch_tours(config)#interface gigabitEthernet 1/0/22
+switch_tours(config-if)#switchport trunk allowed vlan 130,230,231
+
+configurer la route du vlan_interco (pour communiquer avec la dmz)
+switch_tours(config)#interface vlan 231
+switch_tours(config-if)#ip address 172.28.64.254 255.255.255.0
+switch_tours#write memory
 
 ### VLAN 232 : vlan_serveurs
 
@@ -70,5 +93,6 @@ Switch_tours(config-if)# end
 ```
 Switch_tours(config)# interface gigabitEthernet 1/0/22
 Switch_tours(config-if)# switchport mode trunk
-Switch_tours(config-if)# switchport trunk allows vlan 130,230,232
+Switch_tours(config-if)# switchport trunk allows vlan 130,230-232
+switch_tours#write memory
 ```
