@@ -1,16 +1,16 @@
 Building configuration...
 
-Current configuration : 1578 bytes
+Current configuration : 2190 bytes
 !
-! Last configuration change at 05:41:24 UTC Tue Sep 15 2026 by dian
-! NVRAM config last updated at 05:41:39 UTC Tue Sep 15 2026 by dian
-! NVRAM config last updated at 05:41:39 UTC Tue Sep 15 2026 by dian
+! Last configuration change at 12:49:43 UTC Mon Sep 28 2026 by dian
+! NVRAM config last updated at 12:50:05 UTC Mon Sep 28 2026 by dian
+! NVRAM config last updated at 12:50:05 UTC Mon Sep 28 2026 by dian
 version 15.1
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname routeur_tours
+hostname routeur_tours_R1
 !
 boot-start-marker
 boot-end-marker
@@ -21,11 +21,11 @@ aaa new-model
 !
 !
 aaa authentication login default local
-aaa authorization exec default local 
+aaa authorization exec default local
 !
-!         
 !
-!         
+!
+!
 !
 aaa session-id common
 !
@@ -46,7 +46,8 @@ crypto pki token default removal timeout 0
 license udi pid CISCO1921/K9 sn FGL162323K2
 !
 !
-username dian privilege 15 secret 4 36kCYZA5eLDF4qupkrPH4hbrx2c1yTHmEg492bKTD2Y
+username dian privilege 15 secret 4 8odprVeqP23IMqCWOZ5ttdqrHrcZT5qJ6/.8vDEvHTU
+username morgan privilege 15 secret 4 cm0CnK4jHcyqyEZqiB8emigDmHW1P5q37Di2dWIWb.6
 !
 !
 ip ssh version 2
@@ -65,11 +66,21 @@ interface GigabitEthernet0/0
 !
 interface GigabitEthernet0/0.130
  encapsulation dot1Q 130
- ip address 10.0.130.254 255.255.255.0
+ ip address 10.0.130.251 255.255.255.0
+!
+interface GigabitEthernet0/0.230
+ encapsulation dot1Q 230
+ ip address 192.168.230.251 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ standby 1 ip 192.168.230.254
+ standby 1 priority 110
+ standby 1 preempt
 !
 interface GigabitEthernet0/1
- no ip address
- shutdown
+ ip address 221.87.137.1 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
  duplex auto
  speed auto
 !
@@ -83,6 +94,13 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 !
+ip nat inside source list ACL_NAT interface GigabitEthernet0/1 overload
+ip route 0.0.0.0 0.0.0.0 221.87.137.2
+ip route 172.28.0.0 255.255.0.0 192.168.230.1
+!
+ip access-list standard ACL_NAT
+ permit 192.168.230.0 0.0.0.255
+ permit 172.28.64.0 0.0.63.255
 !
 !
 !
@@ -97,7 +115,7 @@ line con 0
 line aux 0
 line 2
  no activation-character
- no exec  
+ no exec
  transport preferred none
  transport input all
  transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
@@ -107,3 +125,4 @@ line vty 0 4
 !
 scheduler allocate 20000 1000
 end
+
