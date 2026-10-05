@@ -1,6 +1,6 @@
-**#  Configuration de SSH sur routeur Cisco 1921**
+# 1 **Configuration de SSH sur routeur Cisco 1921**
 
-1 **Réinitialisation du routeur**
+1 . **Réinitialisation du routeur** 
 
 - Redémarrer le routeur et pendant le redémarrage appuyer sur **Ctrl + Pause** afin d'accéder au mode ROMMON.
 
@@ -22,7 +22,7 @@ Would you like to enter the initial configuration dialog? [yes/no]:
 Routeur# config-register 0x2102
 ```
 
-2 **Configuration de SSH sur le routeur**
+2 . **Configuration de SSH sur le routeur**
 
 ```
 Routeur# conf t
@@ -58,7 +58,7 @@ routeur_tours(config)# crypto key generate rsa
 routeur_tours(config)# 2048 
 ```
 
-**ne clé RSA de 2048 bits offre un bon niveau de sécurité tout en consommant relativement peu de ressources.**
+**Une clé RSA de 2048 bits offre un bon niveau de sécurité tout en consommant relativement peu de ressources.**
 
 - On active la version la plus récente de SSH.
 
@@ -102,7 +102,7 @@ routeur_tours(config)#login authentication default
 routeur_tours(config)# transport input ssh
 ```
 
-3 **onfiguration de l'IP du routeur**
+3 . **Configuration de l'IP du routeur**
 
 - Le routeur utilise une sous-interface afin de communiquer avec le VLAN 130.
 
@@ -116,13 +116,13 @@ routeur_tours(config)# interface gigabitEthernet 0/0.130
 routeur_tours(config-subif)#encapsulation dot1Q 130
 ```
 
-- Conformément au réseau du VLAN 130 `10.0.130.0/24`, l'adresse IP `10.0.130.254` est attribuée à la sous-interface du routeur.
+- Conformément au réseau du VLAN 130 `10.0.130.0/24`, l'adresse IP `10.0.130.251` est attribuée à la sous-interface du routeur.
 
 ```
-routeur_tours(config-subif)#ip address 10.0.130.254 255.255.255.0
+routeur_tours(config-subif)#ip address 10.0.130.251 255.255.255.0
 ```
 
-4 **Configuration de l'interface du routeur**
+4 . **Configuration de l'interface du routeur**
 
 - L'interface `GigabitEthernet 0/0` du routeur est reliée au switch sur un port configuré en mode trunk.
 
@@ -133,10 +133,9 @@ routeur_tours(config)# interface gigabitEthernet 0/0
 routeur_tours(config-if)# no shutdown
 ```
 
-- La liaison entre le routeur et le switch utilise donc le VLAN 130 sur une liaison trunk **(la liaison routeur switch est sur le port 22 du switch et sur le port 0/0 du routeur)**.
+- La liaison entre le routeur et le switch utilise donc le VLAN 130 sur une liaison trunk 
 
-
-5 **Sauvegarde des conf**
+5. **Sauvegarde des conf**
 
 - Une fois la configuration terminée, on sauvegarde la configuration afin qu'elle soit conservée après le redémarrage du routeur.
 

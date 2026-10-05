@@ -1,5 +1,5 @@
 #  Configuration de SSH sur switch 9200L
-1 **Réinitialisation du switch**
+1. **Réinitialisation du switch**
 ```
 Switch> enable
 Switch# write erase
@@ -7,13 +7,14 @@ Switch# delete flash:vlan.dat
 Switch# reload
 ```
 
-2 **Configuration du VLAN de management**
+2 . **Configuration du VLAN de management**
 ```
 Switch> enable
 Switch# conf t
 ```
 
 - Comme le cahier des charges le demande, on attribue le VLAN 130 comme VLAN de management.
+
 ```
 Switch(config)# vlan 130
 Switch(config-vlan)# name vlan_management
@@ -24,7 +25,6 @@ Switch(config-vlan)# name vlan_management
 Switch(config)# interface gigabitEthernet 1/0/23
 ```
 
-
 - On définit que le port 23 appartient à un seul VLAN.
 ```
 Switch(config-if)# switchport mode access
@@ -34,7 +34,6 @@ Switch(config-if)# switchport mode access
 ```
 Switch(config-if)# switchport access vlan 130
 ```
-règle de nat (acl) :
 
 - On établit la même procédure sur le port 24.
 
@@ -43,7 +42,7 @@ Switch(config)# interface gigabitEthernet 1/0/24
 Switch(config-if)# switchport mode access
 Switch(config-if)# switchport access vlan 130
 ```
-3 **Adressage de la SVI du switch**
+3 . **Adressage de la SVI du switch**
 
 - La SVI est une interface virtuelle associée à un VLAN. Elle permet d'attribuer une adresse IP au switch et donc d'établir une connexion à distance à ce dernier.
 
@@ -57,7 +56,7 @@ Switch# conf t
 ```
 Switch(config)# interface vlan 130
 ```
-- Conformément au réseau du VLAN 130 10.0.130.0/24, l'adresse IP 10.0.130.1 est attribuée à la SVI.
+- Conformément au réseau du VLAN 130 10.0.130.0/22, l'adresse IP 10.0.130.1 est attribuée à la SVI.
 
 ```
 Switch(config-if)# ip address 10.0.130.1 255.255.255.0
@@ -68,7 +67,7 @@ Switch(config-if)# ip address 10.0.130.1 255.255.255.0
 Switch(config-if)# no shutdown
 ```
 
-4 **Configuration de SSH sur le switch**
+4 . **Configuration de SSH sur le switch**
 ```
 Switch> enable
 Switch# conf t
@@ -129,13 +128,13 @@ switch_tours(config)#login authentication default
 switch_tours(config)# transport input ssh
 ```
 
-5 **Sauvegarde des conf**
+5 . **Sauvegarde des conf**
 ```
 switch_tours# write memory
 ```
-- Si **system ignore startup-config est activé (c'est à dire =1)**, les configurations sauvegardées peuvent être ignorées au redémarrage du switch. Il est donc recommandé de vérifier cette variable lors de la préparation d'un switch neuf ou après une réinitialisation.
+- Si **system ignore startup-config** à comme valeur 1, les configurations sauvegardées peuvent être ignorées au redémarrage du switch. Il est donc recommandé de vérifier cette variable lors de la préparation d'un switch neuf ou après une réinitialisation.
 
-vérifier que le system_ignore_startup-config=0
+vérifier que la valeur de system_ignore_startup-config est à 0.
 ```
 switch_tours#show romvar
 ```
