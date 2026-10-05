@@ -8,3 +8,5 @@
 | vlan servers | 232 | Gi1/0/3 | 172.28.65.0/24 | access |
 | Vlan DMZ | 233 | Gi/0/18  | 192.168.233.0/24 | access |
 | Vlan interco_LAN | 234 | Gi/0/17 | 192.168.234.0/24 | access |
+| |  | Gi/0/21 | | trunk |
+| |  | Gi/0/22 | | trunk |

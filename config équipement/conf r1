@@ -100,7 +100,7 @@ ip route 172.28.0.0 255.255.0.0 192.168.230.1
 !
 ip access-list standard ACL_NAT
  permit 192.168.230.0 0.0.0.255
- permit 172.28.64.0 0.0.63.255git reset --hard origin/nom_de_la_branche
+ permit 172.28.64.0 0.0.63.255
 !
 !
 !

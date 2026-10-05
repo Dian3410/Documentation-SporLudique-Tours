@@ -1,1 +1,1 @@
-- Pour les passerelles on utilise la dernière adresse disponible. **.254**&
+- Pour les passerelles on utilise la dernière adresse disponible. **.254**
