@@ -15,7 +15,7 @@ HSRP permet à deux routeurs (R1 et R2) de partager une adresse IP virtuelle (VI
 - Pour les besoins de la haute disponibilité de l'accès à Internet ces modifications ont été aporter:
 le nom du premier routeur mis en place (routeur_tours) à été modifier en routeur_tours_R1
 **L'adresse du routeur dans le vlan d'interconnexion a été modifier de `192.168.230.254` à `192.168.230.251`**
-pour plus de précision sur le vlan d'interconnexion voir Infrastructure/contention
+pour plus de précision sur le vlan d'interconnexion voir Infrastructure/convention
 
 | Équipement | Rôle HSRP | IP Réelle | Priorité |
 | :--- | :--- | :--- | :--- |
@@ -45,3 +45,28 @@ routeur_tours_R1(config-subif)# standby 1 ip 192.168.230.254
 routeur_tours_R1(config-subif)# standby 1 priority 110
 routeur_tours_R1(config-subif)# standby 1 preempt
 ```
+
+## 3. Configuration du Routeur 2 (Secours / Standby)
+
+Le routeur **R2** agit en tant que routeur de secours (Standby). Sa configuration de base (SSH, mots de passe, ACL, NAT) est strictement identique à celle du routeur R1. 
+
+Les seules différences concernent son identité sur le réseau (nom d'hôte, adresses IP physiques) et son rôle HSRP. Contrairement à R1, on ne lui configure pas de sonde de suivi de lien (*track*) et il utilise une priorité HSRP plus faible (100) pour rester en écoute.
+
+### Nom d'hôte
+```
+Routeur(config)# hostname routeur_tours_R2
+```
+### configuration des interfaces
+! Configuration de l'IP physique (réelle) de R2
+```
+routeur_tours_R2(config)# interface GigabitEthernet0/0.230
+routeur_tours_R2(config-subif)# ip address 192.168.230.252 255.255.255.0
+```
+
+! Configuration HSRP (Priorité 100 par défaut, Standby)
+```
+routeur_tours_R2(config-subif)# standby 1 ip 192.168.230.254
+routeur_tours_R2(config-subif)# standby 1 priority 100
+routeur_tours_R2(config-subif)# standby 1 preempt
+```
+Note : L'interface WAN (GigabitEthernet0/1) de R2 est configurée avec sa propre adresse IP publique fournie par le FAI2 (183.44.37.2/30), différente de celle de R1.

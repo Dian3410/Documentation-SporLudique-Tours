@@ -45,30 +45,38 @@ switch_tours#write memory
 ### VLAN 231 : vlant_clients
 
 nommage du vlan 231
+```
 switch_tours(config)#vlan 231
 switch_tours(config-vlan)#name vlan_clients
-
+```
 configuration du vlan clients
+```
 switch_tours(config)#interface gigabitEthernet 1/0/20
 switch_tours(config-if)#switchport mode access
 switch_tours(config-if)#switchport access vlan 231
-je précise les vlans précédent pour ne pas écraser les autres vlans !
+```
+
 
 Adressage ip du vlan clients (gateway)
+```
 switch_tours(config)#interface vlan 231
 switch_tours(config-if)#ip address 172.28.64.254 255.255.255.0 (gateway vlan clients)
-switch_tours(config)#ip routing
+```
 
 ajout du vlan clients au port trunk
+```
 switch_tours(config)#interface gigabitEthernet 1/0/22
 switch_tours(config-if)#switchport trunk allowed vlan 130,230,231
+```
+je précise les vlans précédent pour ne pas écraser les autres vlans !
 
-configurer la route du vlan_interco (pour communiquer avec la dmz)
+configurer la route du vlan_clients
+```
 switch_tours(config)#interface vlan 231
 switch_tours(config-if)#ip address 172.28.64.254 255.255.255.0
 switch_tours#write memory
-
-### VLAN 232 : vlan_serveurs
+```
+### VLAN 232 : vlan_servers
 
 - Ce vlan contiendra les serveurs internes de SportLudique Tours avec comme adresse réseau `172.28.65.0/24`
 
@@ -94,5 +102,29 @@ Switch_tours(config-if)# end
 Switch_tours(config)# interface gigabitEthernet 1/0/22
 Switch_tours(config-if)# switchport mode trunk
 Switch_tours(config-if)# switchport trunk allows vlan 130,230-232
+switch_tours#write memory
+```
+### VLAN 233 : vlan_dmz
+
+- Ce vlan dmz comme son nom l'indique est la dmz qui contiendra les services exposés depuis internet
+
+```
+Switch_tours(config)# vlan 233
+Switch_tours(config-vlan)# name vlan_dmz
+```
+- Ce vlan ne nécéssite pas de configurer la SVI sur le switch de niveau 3 car il sert juste a faire la liaison au niveau de la couche 2
+
+- On affecte le port Gi1/0/18 en mode access au vlan 233
+```
+Switch_tours(config)# interface gigabitEthernet 1/0/18
+Switch_tours(config-if)# switchport mode access
+Switch_tours(config-if)# switchport access vlan 233
+Switch_tours(config-if)# end
+```
+!! Atention ne pas oublier d'autoriser ce vlan sur les port en trunk reliés aux routeurs:
+```
+Switch_tours(config)# interface gigabitEthernet 1/0/22
+Switch_tours(config-if)# switchport mode trunk
+Switch_tours(config-if)# switchport trunk allows vlan 130,230-233
 switch_tours#write memory
 ```
