@@ -128,3 +128,35 @@ Switch_tours(config-if)# switchport mode trunk
 Switch_tours(config-if)# switchport trunk allows vlan 130,230-233
 switch_tours#write memory
 ```
+
+### VLAN 234 : interco_LAN
+
+nommage du vlan 234
+switch_tours(config)#vlan 234
+switch_tours(config-vlan)#name interco_LAN
+
+Configuration du vlan interco_LAN
+
+switch_tours(config)#interface gigabitEthernet 1/0/17
+switch_tours(config-if)#switchport mode access
+switch_tours(config-if)#switchport access vlan 234
+
+Adressage ip du vlan interco_LAN (gateway)
+switch_tours(config)#interface vlan 234
+switch_tours(config-if)#ip address 192.168.234.1 255.255.255.0
+
+Ajout du vlan au port trunk
+
+switch_tours(config)#interface gigabitEthernet 1/0/22
+switch_tours(config-if)#switchport trunk allowed vlan 130,230,231,232,234
+je précise les vlans précédent pour ne pas écraser les autres vlans !
+
+switch_tours(config)#interface gigabitEthernet 1/0/21
+switch_tours(config-if)#switchport trunk allowed vlan 130,230,231,232,234
+
+Je précise également les vlans précédent pour ne pas écraser les autres vlans !
+
+On sauvegarde
+switch_tours#write memory
+
+
