@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 9902 bytes
+Current configuration : 10281 bytes
 !
-! Last configuration change at 13:34:04 UTC Mon Sep 28 2026 by dian
+! Last configuration change at 07:29:58 UTC Tue Oct 6 2026 by dian
 !
 version 17.6
 service timestamps debug datetime msec
@@ -204,17 +204,25 @@ policy-map system-cpp-policy
 !
 !
 !
+interface Port-channel1
+ switchport trunk allowed vlan 130,231-233
+ switchport mode trunk
+!
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
  no ip address
 !
 interface GigabitEthernet1/0/1
+ switchport trunk allowed vlan 130,231-233
+ switchport mode trunk
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/0/2
+ switchport trunk allowed vlan 130,231-233
+ switchport mode trunk
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/0/3
- switchport access vlan 232
- switchport mode access
 !
 interface GigabitEthernet1/0/4
 !
@@ -243,8 +251,12 @@ interface GigabitEthernet1/0/15
 interface GigabitEthernet1/0/16
 !
 interface GigabitEthernet1/0/17
+ switchport trunk allowed vlan 130,234
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/18
+ switchport access vlan 233
+ switchport mode access
 !
 interface GigabitEthernet1/0/19
  switchport access vlan 230
@@ -255,11 +267,11 @@ interface GigabitEthernet1/0/20
  switchport mode access
 !
 interface GigabitEthernet1/0/21
- switchport trunk allowed vlan 130,230-232
+ switchport trunk allowed vlan 130,230-234
  switchport mode trunk
 !
 interface GigabitEthernet1/0/22
- switchport trunk allowed vlan 130,230-232
+ switchport trunk allowed vlan 130,230-234
  switchport mode trunk
 !
 interface GigabitEthernet1/0/23
@@ -281,20 +293,23 @@ interface GigabitEthernet1/1/4
 interface Vlan1
  no ip address
 !
-interface Vlan31
- no ip address
-!
 interface Vlan130
  ip address 10.0.130.1 255.255.255.0
 !
 interface Vlan230
- ip address 192.168.230.1 255.255.255.0
+ no ip address
 !
 interface Vlan231
  ip address 172.28.64.254 255.255.255.0
 !
 interface Vlan232
  ip address 172.28.65.254 255.255.255.0
+!
+interface Vlan233
+ no ip address
+!
+interface Vlan234
+ ip address 192.168.234.1 255.255.255.0
 !
 ip forward-protocol nd
 ip http server
@@ -311,9 +326,7 @@ control-plane
  service-policy input system-cpp-policy
 !
 !
-line con 0switch_tours(config-if)#exit
-switch_tours(config)#ip route 0.0.0.0 0.0.0.0 192.168.230.254
-
+line con 0
  stopbits 1
 line aux 0
 line vty 0 4
