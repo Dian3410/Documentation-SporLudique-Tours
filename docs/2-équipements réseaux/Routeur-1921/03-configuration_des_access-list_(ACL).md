@@ -1,7 +1,7 @@
 
 ### Mise en place de l'ACL pour le NAT
 
-- Une ACL standard est créée afin d'identifier le réseau d'interco `192.168.230.0/24` dont les adresses doivent être traduites par le NAT.
+- Une ACL standard est créée afin d'identifier le réseau d'interco WAN `192.168.230.0/24` dont les adresses doivent être traduites par le NAT.
 
 ```
 routeur_tours(config)# ip access-list standard ACL_NAT
@@ -21,4 +21,10 @@ routeur_tours(config)# end
 ```
 routeur_tours(config)# ip access-list standard ACL_NAT
 routeur_tours(config-std-nacl)# permit 172.28.64.0 0.0.63.255
+```
+Le vlan dmz (192.168.233.0/24) et le vlan interco_LAN (192.168.234.0:24) sont intégrés à l'ACL standard ACL_NAT car ses adresses privées doivent être traduites (nattées) pour accéder à Internet.
+```
+routeur_tours(config)# ip access-list standard ACL_NAT
+routeur_tours(config-std-nacl)# permit 192.168.233.0 0.0.0.255
+routeur_tours(config-std-nacl)# permit 192.168.234.0 0.0.0.255
 ```
