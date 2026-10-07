@@ -7,7 +7,7 @@
 | interco_WAN | 230 | Gi1/0/19 | 192.168.230.0/24 | access |
 | vlan_clients | 231 | Gi/0/20  | 172.28.64.0/24 | access |
 | vlan_servers | 232 | Gi1/0/3 | 172.28.65.0/24 | access |
-| vlan_DMZ | 233 | Gi/0/18  | 192.168.233.0/24 | access |
+| vlan_DMZ | 233 | / | 192.168.233.0/24 | access | / |
 | interco_LAN | 234 | Gi/0/17 | 192.168.234.0/24 | access |
 
 ## Ports particuliers
