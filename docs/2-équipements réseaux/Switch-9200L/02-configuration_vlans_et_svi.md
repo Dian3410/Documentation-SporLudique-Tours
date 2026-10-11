@@ -8,12 +8,12 @@ switch_tours(config)# ip routing
 
 ## 2. Création des VLANs
 
-### VLAN 230 : vlan d'interconnexion
+### VLAN 230 : vlan d'interco WAN
 
 - Pour assurer la liaison entre le routeur exétérieur (FAI1) et switch L3, le vlan d'interconnexion a été mise en place (192.168.230.0/24)
 ```
 Switch(config)# vlan 230
-Switch(config-vlan)# name vlan_interco
+Switch(config-vlan)# name interco_WAN
 ```
 - Adresse du switch dans le vlan 230
 ```
