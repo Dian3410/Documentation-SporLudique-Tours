@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Récupérer le dépôt
+      - name: Récupérer le dépôt(vlan serveur)
         uses: actions/checkout@v4
 
       - name: Installer Python

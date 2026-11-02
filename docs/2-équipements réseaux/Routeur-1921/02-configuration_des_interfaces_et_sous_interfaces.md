@@ -38,3 +38,18 @@ routeur_tours(config-subif)# ip nat inside
 routeur_tours(config-subif)# no shutdown
 routeur_tours(config-subif)# exit
 ```
+
+## Redirection de port 
+
+
+- Lorsque **des requêtes DNS externes** sont effectuées, on doit rediriger ces requêtes vers le **serveur DNS autoritaire**.
+
+----------------
+
+- On effectue donc une redirection de port vers le port **53**, à l'adresse **du DNS autoritaire 192.168.233.1**
+
+
+```
+ip nat inside source static udp 192.168.233.1 53 interface GigabitEthernet0/1 53
+ip nat inside source static tcp 192.168.233.1 53 interface GigabitEthernet0/1 53
+```

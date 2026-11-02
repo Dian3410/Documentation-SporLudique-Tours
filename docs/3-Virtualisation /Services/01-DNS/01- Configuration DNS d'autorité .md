@@ -142,8 +142,6 @@ include "/etc/bind/named.conf.local";
 
 1. Vérification de la syntaxe
  
- 
-
 ```
 sudo named-checkconf
 sudo named-checkzone tours.sportludique.fr /etc/bind/db.tours.sportludique.fr.interne
@@ -155,4 +153,27 @@ sudo systemctl restart bind9
 sudo systemctl status bind9
 ```
 
-## Ne pas oublier de faire le PAT sur les routeurs ( la redirection de ports )
+## Vérifier que le serveur autoritaire répond au requêtes dns
+
+```
+dig  www.tours.sportludique.fr
+ 
+; <<>> DiG 9.20.30-1~deb13u1-Debian <<>> www.tours.sportludique.fr
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52457
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+ 
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;www.tours.sportludique.fr.     IN      A
+ 
+;; ANSWER SECTION:
+www.tours.sportludique.fr. 85062 IN     A       221.87.137.1
+ 
+;; Query time: 4 msec
+;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP)
+;; WHEN: Mon Nov 02 16:36:44 CET 2026
+;; MSG SIZE  rcvd: 70
+```
