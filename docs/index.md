@@ -1,12 +1,13 @@
-# Documentation de l'infrastructure — Site de Tours (TRS)
+# Accueil
 
-Bienvenue sur la documentation du site de **Tours**, développée dans le cadre du projet d'infrastructure **SportLudique**.
+##  Présentation du site de ce site  
+
+Bienvenue sur la documentation du site de **Tours**, développée dans le cadre du projet d'infrastructure **SportLudique** et réalisée par Dian Diallo et Morgan Fontaine.
 
 Ce portail centralise l'ensemble des procédures, configurations réseau, déploiements de services et règles d'administration propres à l'îlot de Tours.
 
+## Présentation de l'entreprise
 
-## Navigation rapide
+L'entreprise SportLudique est spécialisée dans la vente d'articles de sport et de loisirs. Elle compte 4 sites dans la région Centre Val de Loire. Le système d'information (SI) est virtualisé à l'aide de la solution Proxmox.
 
-* **[Infrastructure](infra/topologie.md)** — Topologie globale, plan d'adressage IP et découpage des VLANs.
-* **[Conventions TRS](infra/conventions.md)** — Règles de nommage, brassage physique et consignes du laboratoire.
-* **[Annexes](annexes/memo.md)** — Aide-mémoire des commandes système et identifiants techniques.
+
