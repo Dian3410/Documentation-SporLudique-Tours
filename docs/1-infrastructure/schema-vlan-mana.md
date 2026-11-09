@@ -8,3 +8,7 @@
 **2.**
 
 ![](../annexes/schéma_mana2.drawio.png)
+
+****
+**3.**
+![](../annexes/schéma_mana3.drawio.png)

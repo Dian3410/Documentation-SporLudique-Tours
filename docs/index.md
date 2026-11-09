@@ -1,6 +1,6 @@
 # Accueil
 
-##  Présentation du site de ce site  
+##  Présentation de ce site  
 
 Bienvenue sur la documentation du site de **Tours**, développée dans le cadre du projet d'infrastructure **SportLudique** et réalisée par Dian Diallo et Morgan Fontaine.
 
