@@ -41,6 +41,7 @@ routeur_tours(config-subif)# exit
 
 ## Redirection de port 
 
+### port 53
 
 - Lorsque **des requêtes DNS externes** sont effectuées, on doit rediriger ces requêtes vers le **serveur DNS autoritaire**.
 
@@ -50,6 +51,15 @@ routeur_tours(config-subif)# exit
 
 
 ```
-ip nat inside source static udp 192.168.233.1 53 interface GigabitEthernet0/1 53
-ip nat inside source static tcp 192.168.233.1 53 interface GigabitEthernet0/1 53
+routeur_tours_R1(config)#ip nat inside source static udp 192.168.233.1 53 interface GigabitEthernet0/1 53
+routeur_tours_R1(config)#ip nat inside source static tcp 192.168.233.1 53 interface GigabitEthernet0/1 53
+```
+
+### port 80 et 443
+- Lorsque **des requêtes ** sont effectuées, on doit rediriger ces requêtes vers le **serveur web**.
+- On effectue donc une redirection de port vers le port **80** et **443**, à l'adresse **du serveur web 192.168.233.2**
+
+```
+routeur_tours_R1(config)#ip nat inside source static tcp 192.168.233.2 80  interface GigabitEthernet0/1 80
+routeur_tours_R1(config)#ip nat inside source static tcp 192.168.233.2 443 interface GigabitEthernet0/1 443
 ```
