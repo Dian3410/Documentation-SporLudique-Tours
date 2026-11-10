@@ -1,4 +1,6 @@
-# Vlan mana
+# Test réseau
+
+## Vlan mana
 
 **Test NAT**
 - Ping du 10.0.130.2 vers l'adresse ip des servers google
@@ -20,7 +22,7 @@ PING 10.0.130.1 (10.0.130.1) 56(84) bytes of data.
 64 bytes from 10.0.130.1: icmp_seq=1 ttl=254 time=1.21 ms
 ```
 
-# Vlan server
+## Vlan server
 
 **Server CORE**
 - Ping du 172.28.65.120 vers 172.28.65.254 (gateway)
@@ -41,7 +43,7 @@ Réponse de 172.28.65.254 : octets=32 temps=1 ms TTL=254
 ```
 
 
-# Vlan clients
+## Vlan clients
 
 **Poste client** 
 - Ping du 172.28.64.2 vers 172.28.64.254 (gateway)
@@ -52,7 +54,7 @@ PING 172.28.64.254 (172.28.64.254) 56(84) bytes of data.
 64 bytes from 172.28.64.254: icmp_seq=2 ttl=254 time=1.26 ms
 ```
 
-# Vlan interco_WAN
+## Vlan interco_WAN
 
 **Firewall** 
 - Ping du 192.168.230.1 vers 192.168.230.251
@@ -89,7 +91,7 @@ packet_size=64
 time=0.71
 ```
 
-# Vlan dmz
+## Vlan dmz
 
 **Dns autoritaire**
 - ping du 192.168.233.1 vers la gateway dmz
@@ -100,7 +102,7 @@ PING 192.168.233.254 (192.168.233.254) 56(84) bytes of data.
 
 ```
 
-# Vlan interco_LAN
+## Vlan interco_LAN
 
 **Poste client**
 - Ping du 172.28.64.2 vers la svi du vlan interco_LAN
