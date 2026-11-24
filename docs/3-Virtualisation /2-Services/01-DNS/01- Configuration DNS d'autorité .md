@@ -99,8 +99,8 @@ $TTL    86400
  
 ; Enregistrements de la DMZ
 ns2     IN      A       192.168.233.1
-mail    IN      A       192.168.233.2
-www     IN      A       192.168.233.3
+mail    IN      A       192.168.233.3
+www     IN      A       192.168.233.2
  
 ; On confie le sous-domaine "ad" au serveur Windows DC1
 ad      IN      NS     trs-dc1.trs.tours.sportludique.fr.
