@@ -1,21 +1,21 @@
-# Création de VM windows CORE sur proxmox
+# Création de VM windows CORE sur proxmox
 
 **Windows server CORE:**
 
-```Général``` *Noeud pour héberger la VM: (proxmox-01,proxmox-02..)*
+```Général``` *proxmox-02*
 
 - A noter: N'hésitez pas à changer de noeud pour effectuer de la haute disponibilité en cas de défaillance d'un noeud
 
-```VM ID:``` *ID du vlan ou au choix*
+```VM ID:``` *232*
 
-```Nom:``` *TRS_NOM_VM*
+```Nom:``` *TRS-SERVER-DC1*
 
 - Par convention de nommage, nous affectons le nom de notre secteur à l'en tête du nom de la vm.
 Dans notre cas *"TRS"*
 
 ```Pool de ressources:``` *"groupe-tours-2027"*
 
-```Système d'exploitation```
+**Système d'exploitation**
 
 ```Stockage:``` *local-data*
 
@@ -47,9 +47,9 @@ Dans notre cas *"TRS"*
 
 **Réseau**
 
-```Pont:``` Séléctionner le vlan requis (sptrs230,231..)
+```Pont:``` *sptrs232 (vlan serveur)*
 
-```Modèle:``` VirtIO (paravirtualisé)
+```Modèle:``` *VirtIO (paravirtualisé)*
 
 **Confirmation**
 
@@ -61,6 +61,25 @@ Dans notre cas *"TRS"*
 
 Séléctionner ```"Windows Server 2022 Standard Evaluation``` pour posséder une interface core.
 
+**Ajout de carte réseau**
 
+- Dans proxmox;
 
+*Éteignez la vm puis, cliquez sur **Hardware**, ajoutez **CD/DVD Drive** séléctionnez le driver iso **virtio-win-0.1.302.iso**.*
 
+- Installer l'iso puis redémarrez la vm pour appliquer les modifications. 
+
+**Configuration réseaux**
+
+``` IP fixe:``` 
+- Faites **8 Paramètres réseau**
+- Séléctionnez **le numéro d'index de la carte réseau** 
+
+- Définissez l'adresse de **la carte réseau (1)**
+```172.28.65.120``` 
+
+- Définissez la passerelle de **la carte réseau**
+```172.28.65.254``` 
+
+- Définissez les serveurs DNS 
+```172.28.65.1``` 

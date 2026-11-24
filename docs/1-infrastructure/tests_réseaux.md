@@ -42,16 +42,33 @@ Envoi d’une requête 'Ping' 172.28.65.254 avec 32 octets de données :
 Réponse de 172.28.65.254 : octets=32 temps=1 ms TTL=254
 ```
 
+**DNS_Interne (Resolver)**
+- Ping du 172.28.65.1 vers 172.28.65.254 (gateway)
+
+```
+ping 172.28.65.254
+PING 172.28.65.254 (172.28.65.254) 56(84) bytes of data.
+64 bytes from 172.28.65.254: icmp_seq=1 ttl=254 time=1.18 ms
+```
 
 ## Vlan clients
 
-**Poste client** 
-- Ping du 172.28.64.2 vers 172.28.64.254 (gateway)
+**Poste de connexion** 
+- Ping du 172.28.64.1 vers 172.28.64.254 (gateway)
 
 ```
 ping 172.28.64.254
 PING 172.28.64.254 (172.28.64.254) 56(84) bytes of data.
 64 bytes from 172.28.64.254: icmp_seq=2 ttl=254 time=1.26 ms
+```
+
+**VM windows 11**
+- Ping du 172.28.64.4 vers 172.28.64.254 (gateway)
+
+```
+ping 172.28.64.254
+Envoi d’une requête 'Ping'  172.28.64.254 avec 32 octets de données :
+Réponse de 172.28.64.254 : octets=32 temps=5 ms TTL=254
 ```
 
 ## Vlan interco_WAN
@@ -99,7 +116,25 @@ time=0.71
 ```
 PING 192.168.233.254 (192.168.233.254) 56(84) bytes of data.
 64 bytes from 192.168.233.254: icmp_seq=1 ttl=64 time=1.34 ms
+```
 
+**Serv-web**
+- ping du 192.168.233.2 vers la gateway dmz
+
+```
+ping 192.168.233.254
+PING 192.168.233.254 (192.168.233.254) 56(84) bytes of data.
+64 bytes from 192.168.233.254: icmp_seq=1 ttl=64 time=0.550 ms
+```
+
+
+**Serv-mail**
+- ping du 192.168.233.3 vers la gateway dmz
+
+```
+ping 192.168.233.254
+PING 192.168.233.254 (192.168.233.254) 56(84) bytes of data.
+64 bytes from 192.168.233.254: icmp_seq=1 ttl=64 time=0.462 ms
 ```
 
 ## Vlan interco_LAN
